@@ -1,0 +1,193 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  background-color: #004080;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Upload Section */
+.upload-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.upload-section div {
+  flex: 1 1 300px;
+}
+
+.upload-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.upload-section input[type="file"] {
+  width: 100%;
+}
+
+.upload-section button {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: #004080;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.upload-section button:hover {
+  background-color: #0059b3;
+}
+
+/* Table Section */
+#table-section {
+  margin-top: 1rem;
+}
+
+#table-section.hidden {
+  display: none;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.toggle-wrapper {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Layout: Side-by-Side */
+.side-by-side-container {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+.left-panel {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #fefefe;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+  border: 1px solid #ccc;
+  max-height: 600px;
+  overflow: auto;
+}
+
+/* Align Preview Button Top Right */
+.preview-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+/* Preview Code Block */
+.code-preview {
+  margin: 0;
+  overflow: auto;
+}
+
+/* Translation Table */
+.table-wrapper {
+  max-height: 600px;
+  overflow: auto;
+  border: 1px solid #ccc;
+}
+
+#translationTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  table-layout: fixed;
+}
+
+#translationTable th,
+#translationTable td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+
+#translationTable th {
+  background-color: #f0f0f0;
+}
+
+tr.highlight-missing td {
+  background-color: #fff5f5;
+}
+
+tr input {
+  width: 100%;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Export Button */
+#exportBtn {
+  margin-top: 1rem;
+  background-color: #2e7d32;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#exportBtn:hover {
+  background-color: #388e3c;
+}
+
+/* Preview Button */
+#previewBtn {
+  padding: 0.5rem 1rem;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#previewBtn:hover {
+  background-color: #0059b3;
+}

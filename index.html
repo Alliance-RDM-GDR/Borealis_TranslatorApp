@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Translation Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Translation Assistant</h1>
+    <p>Compare and translate .properties files</p>
+  </header>
+
+  <main>
+    <section class="upload-section">
+      <div>
+        <label for="englishFile">Upload new English .properties file</label>
+        <input type="file" id="englishFile" accept=".properties" />
+      </div>
+      <div>
+        <label for="frenchFile">Upload existing French .properties file</label>
+        <input type="file" id="frenchFile" accept=".properties" />
+      </div>
+      <button id="compareBtn">Compare Files</button>
+    </section>
+
+    <section id="table-section" class="hidden">
+      <div class="side-by-side-container">
+        <div class="left-panel">
+          <h2>Translation Table</h2>
+          <input type="text" id="searchInput" placeholder="Search keys or text..." />
+
+          <div class="toggle-wrapper">
+            <label>
+              <input type="checkbox" id="toggleMissing" />
+              Show only missing translations
+            </label>
+          </div>
+
+          <div class="table-wrapper">
+            <table id="translationTable">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>English</th>
+                  <th>French (current or editable)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Dynamically added rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <button id="exportBtn">Export Updated French File</button>
+        </div>
+
+        <div class="right-panel">
+          <div class="preview-header">
+            <button id="previewBtn" class="button secondary-button">Show Preview</button>
+          </div>
+          <h3>Export Preview</h3>
+          <pre id="previewContent" class="code-preview"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
