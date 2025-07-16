@@ -26,43 +26,37 @@
     </section>
 
     <section id="table-section" class="hidden">
-      <div class="side-by-side-container">
-        <div class="left-panel">
-          <h2>Translation Table</h2>
-          <input type="text" id="searchInput" placeholder="Search keys or text..." />
+      <h2>Translation Table</h2>
+      <input type="text" id="searchInput" placeholder="Search keys or text..." />
+      <div class="toggle-wrapper">
+        <label>
+          <input type="checkbox" id="toggleMissing" />
+          Show only missing translations
+        </label>
+      </div>
 
-          <div class="toggle-wrapper">
-            <label>
-              <input type="checkbox" id="toggleMissing" />
-              Show only missing translations
-            </label>
-          </div>
+      <div class="table-wrapper">
+        <table id="translationTable">
+          <thead>
+            <tr>
+              <th><div class="resizable"><span>Key</span><div class="resizer"></div></div></th>
+              <th><div class="resizable"><span>English</span><div class="resizer"></div></div></th>
+              <th><div class="resizable"><span>French (editable)</span><div class="resizer"></div></div></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-          <div class="table-wrapper">
-            <table id="translationTable">
-              <thead>
-                <tr>
-                  <th>Key</th>
-                  <th>English</th>
-                  <th>French (current or editable)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Dynamically added rows -->
-              </tbody>
-            </table>
-          </div>
+      <div class="button-row">
+        <button id="exportBtn">Export Updated French File</button>
+        <button id="exportMissingBtn">Export Only Missing Translations</button>
+        <button id="previewBtn" class="button secondary-button">Show Preview</button>
+      </div>
 
-          <button id="exportBtn">Export Updated French File</button>
-        </div>
-
-        <div class="right-panel">
-          <div class="preview-header">
-            <button id="previewBtn" class="button secondary-button">Show Preview</button>
-          </div>
-          <h3>Export Preview</h3>
-          <pre id="previewContent" class="code-preview"></pre>
-        </div>
+      <div id="previewContainer" class="preview-box hidden">
+        <h3>Export Preview</h3>
+        <pre id="previewContent" class="code-preview"></pre>
       </div>
     </section>
   </main>

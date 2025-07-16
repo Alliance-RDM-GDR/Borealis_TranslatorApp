@@ -28,9 +28,7 @@ function readPropertiesFile(file, lang) {
       const lines = reader.result.split(/\r?\n/);
       const result = {};
 
-      if (lang === "en") {
-        englishRawLines = [...lines];
-      }
+      if (lang === "en") englishRawLines = [...lines];
 
       lines.forEach(line => {
         const trimmed = line.trim();
@@ -47,23 +45,13 @@ function readPropertiesFile(file, lang) {
         }
       });
 
-      if (lang === "fr") {
-        frenchContent = result;
-      }
+      if (lang === "fr") frenchContent = result;
 
       resolve(result);
     };
     reader.onerror = reject;
     reader.readAsText(file, "ISO-8859-1");
   });
-}
-
-function escapeHTML(text) {
-  if (!text) return "";
-  return text.replace(/&/g, "&amp;")
-             .replace(/</g, "&lt;")
-             .replace(/>/g, "&gt;")
-             .replace(/"/g, "&quot;");
 }
 
 function renderTable(english, french) {
@@ -76,7 +64,8 @@ function renderTable(english, french) {
   tableSection.classList.remove("hidden");
 
   Object.entries(english).forEach(([key, engText]) => {
-    const frText = french[key] || "";
+    const stored = getSavedTranslation(key);
+    const frText = stored || french[key] || "";
     const isMissing = !frText;
 
     if (showOnlyMissing && !isMissing) return;
@@ -85,28 +74,42 @@ function renderTable(english, french) {
     const engMatch = engText.toLowerCase().includes(searchTerm);
     const frMatch = frText.toLowerCase().includes(searchTerm);
     const matches = !searchTerm || keyMatch || engMatch || frMatch;
-
     if (!matches) return;
 
     const row = document.createElement("tr");
-    if (isMissing) {
-      row.classList.add("highlight-missing");
-    }
+    if (isMissing) row.classList.add("highlight-missing");
 
     const highlight = (text, match) => {
       if (!match) return escapeHTML(text);
-      const regex = new RegExp(`(${match})`, 'gi');
-      return escapeHTML(text).replace(regex, '<mark>$1</mark>');
+      const regex = new RegExp(`(${match})`, "gi");
+      return escapeHTML(text).replace(regex, "<mark>$1</mark>");
     };
 
     row.innerHTML = `
       <td>${highlight(key, searchTerm)}</td>
       <td>${highlight(engText, searchTerm)}</td>
-      <td><input type="text" data-key="${key}" value="${escapeHTML(frText)}"></td>
+      <td>
+        <textarea data-key="${key}" oninput="saveTranslation('${key}', this.value.trim())">${escapeHTML(frText)}</textarea>
+      </td>
     `;
 
     tableBody.appendChild(row);
   });
+}
+
+function getSavedTranslation(key) {
+  const stored = localStorage.getItem("translations");
+  if (!stored) return null;
+  const parsed = JSON.parse(stored);
+  return parsed[key] || null;
+}
+
+function saveTranslation(key, value) {
+  const stored = localStorage.getItem("translations");
+  const parsed = stored ? JSON.parse(stored) : {};
+  parsed[key] = value;
+  localStorage.setItem("translations", JSON.stringify(parsed));
+  renderTable(englishContent, frenchContent); // re-render to update highlight
 }
 
 document.getElementById("toggleMissing").addEventListener("change", () => {
@@ -118,16 +121,16 @@ document.getElementById("searchInput").addEventListener("input", () => {
 });
 
 document.getElementById("exportBtn").addEventListener("click", () => {
-  console.log("Export button clicked");
+  exportFrenchFile("all");
+});
 
-  const inputs = document.querySelectorAll("#translationTable input");
-  const updated = {};
+document.getElementById("exportMissingBtn").addEventListener("click", () => {
+  exportFrenchFile("missing");
+});
 
-  inputs.forEach(input => {
-    const key = input.getAttribute("data-key");
-    const value = input.value.trim();
-    updated[key] = value;
-  });
+function exportFrenchFile(mode = "all") {
+  const stored = localStorage.getItem("translations");
+  const updated = stored ? JSON.parse(stored) : {};
 
   const outputLines = [];
 
@@ -137,12 +140,14 @@ document.getElementById("exportBtn").addEventListener("click", () => {
     if (!trimmed || trimmed.startsWith("#") || !trimmed.includes("=")) {
       outputLines.push(line);
     } else {
-      const [key, ..._] = trimmed.split("=");
+      const [key] = trimmed.split("=");
       const cleanKey = key.trim();
       const newValue =
         escapeForProperties(updated[cleanKey]) ||
         escapeForProperties(frenchRawValues[cleanKey]) ||
         "";
+
+      if (mode === "missing" && newValue) return; // skip filled
 
       outputLines.push(`${cleanKey}=${newValue}`);
     }
@@ -156,43 +161,26 @@ document.getElementById("exportBtn").addEventListener("click", () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "Bundle_fr_updated.properties";
+    link.download =
+      mode === "missing"
+        ? "Bundle_fr_missing_only.properties"
+        : "Bundle_fr_updated.properties";
 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    const fallbackLink = document.createElement("a");
-    fallbackLink.href = url;
-    fallbackLink.download = "Bundle_fr_updated.properties";
-    fallbackLink.textContent = "Manual download";
-    fallbackLink.style.display = "block";
-    fallbackLink.style.marginTop = "1rem";
-    fallbackLink.style.fontWeight = "bold";
-    fallbackLink.style.color = "#004080";
-    fallbackLink.id = "manual-download-link";
-
-    const old = document.getElementById("manual-download-link");
-    if (old) old.remove();
-    document.body.appendChild(fallbackLink);
   } catch (err) {
     console.error("Export failed:", err);
     alert("Export failed. Check console for details.");
   }
-});
+}
 
 document.getElementById("previewBtn").addEventListener("click", () => {
   const previewBox = document.getElementById("previewContainer");
   const previewContent = document.getElementById("previewContent");
 
-  const inputs = document.querySelectorAll("#translationTable input");
-  const updated = {};
-
-  inputs.forEach(input => {
-    const key = input.getAttribute("data-key");
-    const value = input.value.trim();
-    updated[key] = value;
-  });
+  const stored = localStorage.getItem("translations");
+  const updated = stored ? JSON.parse(stored) : {};
 
   const lines = [];
 
@@ -202,7 +190,7 @@ document.getElementById("previewBtn").addEventListener("click", () => {
     if (!trimmed || trimmed.startsWith("#") || !trimmed.includes("=")) {
       lines.push(line);
     } else {
-      const [key, ..._] = trimmed.split("=");
+      const [key] = trimmed.split("=");
       const cleanKey = key.trim();
       const newValue =
         escapeForProperties(updated[cleanKey]) ||
@@ -217,12 +205,52 @@ document.getElementById("previewBtn").addEventListener("click", () => {
   previewBox.classList.remove("hidden");
 });
 
-function escapeForProperties(value) {
-  if (typeof value !== "string") {
-    value = "";
-  }
-  return value.replace(/\\/g, "\\\\")
-              .replace(/\n/g, "\\n")
-              .replace(/\r/g, "")
-              .replace(/\t/g, "\\t");
+function escapeHTML(str) {
+  if (!str) return "";
+  return str.replace(/[&<>"']/g, match => {
+    const escape = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    };
+    return escape[match];
+  });
 }
+
+function escapeForProperties(value) {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "")
+    .replace(/\t/g, "\\t");
+}
+
+// Make columns resizable
+document.addEventListener("DOMContentLoaded", () => {
+  const resizers = document.querySelectorAll(".resizer");
+
+  resizers.forEach(resizer => {
+    const th = resizer.closest("th");
+    let startX, startWidth;
+
+    const onMouseMove = e => {
+      const newWidth = startWidth + (e.clientX - startX);
+      th.style.width = `${newWidth}px`;
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    resizer.addEventListener("mousedown", e => {
+      startX = e.clientX;
+      startWidth = th.offsetWidth;
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    });
+  });
+});

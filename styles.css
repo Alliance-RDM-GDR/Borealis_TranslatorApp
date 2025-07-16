@@ -1,9 +1,13 @@
-/* General Styles */
+main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
   background-color: #f9f9f9;
   color: #333;
 }
@@ -15,13 +19,6 @@ header {
   text-align: center;
 }
 
-main {
-  padding: 2rem;
-  max-width: 1000px;
-  margin: auto;
-}
-
-/* Upload Section */
 .upload-section {
   display: flex;
   flex-wrap: wrap;
@@ -50,22 +47,62 @@ main {
   background-color: #004080;
   color: white;
   border: none;
-  cursor: pointer;
   font-weight: bold;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .upload-section button:hover {
   background-color: #0059b3;
 }
 
-/* Table Section */
-#table-section {
-  margin-top: 1rem;
+#translationTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  table-layout: fixed;
 }
 
-#table-section.hidden {
-  display: none;
+.resizable {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resizer {
+  width: 5px;
+  height: 100%;
+  background: #ccc;
+  cursor: col-resize;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+#translationTable th,
+#translationTable td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+
+#translationTable textarea {
+  width: 100%;
+  height: 100px;
+  resize: vertical;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+tr.highlight-missing td {
+  background-color: #fff5f5;
 }
 
 #searchInput {
@@ -81,113 +118,44 @@ main {
   font-weight: bold;
 }
 
-/* Layout: Side-by-Side */
-.side-by-side-container {
-  display: flex;
-  align-items: stretch;
-  gap: 1.5rem;
-}
-
-.left-panel {
-  flex: 1.5;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.right-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  background-color: #fefefe;
-  padding: 1rem;
-  font-family: monospace;
-  font-size: 0.9rem;
-  white-space: pre;
-  border: 1px solid #ccc;
-  max-height: 600px;
-  overflow: auto;
-}
-
-/* Align Preview Button Top Right */
-.preview-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.5rem;
-}
-
-/* Preview Code Block */
-.code-preview {
-  margin: 0;
-  overflow: auto;
-}
-
-/* Translation Table */
 .table-wrapper {
-  max-height: 600px;
+  max-height: 500px;
   overflow: auto;
   border: 1px solid #ccc;
 }
 
-#translationTable {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  table-layout: fixed;
-}
-
-#translationTable th,
-#translationTable td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-  vertical-align: top;
-  overflow-wrap: break-word;
-}
-
-#translationTable th {
-  background-color: #f0f0f0;
-}
-
-tr.highlight-missing td {
-  background-color: #fff5f5;
-}
-
-tr input {
-  width: 100%;
-  padding: 0.25rem;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-/* Export Button */
-#exportBtn {
+.button-row {
   margin-top: 1rem;
-  background-color: #2e7d32;
-  border: none;
-  color: white;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-#exportBtn:hover {
-  background-color: #388e3c;
-}
-
-/* Preview Button */
-#previewBtn {
+#exportBtn, #exportMissingBtn, #previewBtn {
   padding: 0.5rem 1rem;
-  background-color: #004080;
-  color: white;
-  border: none;
   border-radius: 4px;
   font-weight: bold;
+  border: none;
   cursor: pointer;
 }
 
-#previewBtn:hover {
-  background-color: #0059b3;
+#exportBtn { background-color: #2e7d32; color: white; }
+#exportMissingBtn { background-color: #b36b00; color: white; }
+#previewBtn { background-color: #004080; color: white; }
+#previewBtn:hover { background-color: #0059b3; }
+
+.preview-box {
+  margin-top: 1.5rem;
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.code-preview {
+  margin: 0;
+  font-family: monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
 }
