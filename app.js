@@ -109,7 +109,6 @@ function saveTranslation(key, value) {
   const parsed = stored ? JSON.parse(stored) : {};
   parsed[key] = value;
   localStorage.setItem("translations", JSON.stringify(parsed));
-  renderTable(englishContent, frenchContent); // re-render to update highlight
 }
 
 document.getElementById("toggleMissing").addEventListener("change", () => {
