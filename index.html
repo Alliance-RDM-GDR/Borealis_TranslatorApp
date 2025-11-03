@@ -24,16 +24,45 @@
       </div>
       <button id="compareBtn">Compare Files</button>
     </section>
+    <section class="github-section">
+      <h2>Or Load Directly from GitHub</h2>
+      <div class="github-grid">
+        <div class="field">
+          <label for="githubEnglishPath">English file URL</label>
+          <input type="url" id="githubEnglishPath" placeholder="https://raw.githubusercontent.com/.../Bundle.properties" />
+        </div>
+        <div class="field">
+          <label for="githubFrenchPath">French file URL</label>
+          <input type="url" id="githubFrenchPath" placeholder="https://raw.githubusercontent.com/.../Bundle_fr.properties" />
+        </div>
+      </div>
+      <div class="github-actions">
+        <button id="loadGithubBtn" class="secondary-button">Load from GitHub</button>
+        <small class="hint">
+          Paste raw file URLs or GitHub blob URLs (we’ll convert them automatically).
+        </small>
+      </div>
+    </section>
 
     <section id="table-section" class="hidden">
       <h2>Translation Table</h2>
-      <input type="text" id="searchInput" placeholder="Search keys or text..." />
+      <div class="filters-row">
+        <input type="text" id="searchInput" placeholder="Search keys or text..." />
+        <div class="select-wrapper">
+          <label for="keyCategory">Key group</label>
+          <select id="keyCategory">
+            <option value="">All keys</option>
+          </select>
+        </div>
+      </div>
       <div class="toggle-wrapper">
         <label>
           <input type="checkbox" id="toggleMissing" />
-          Show only missing translations
+          Show only missing or changed translations
         </label>
       </div>
+
+      <div id="alignmentSummary" class="info-panel hidden"></div>
 
       <div class="table-wrapper">
         <table id="translationTable">

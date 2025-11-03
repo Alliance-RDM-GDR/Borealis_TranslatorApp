@@ -56,6 +56,67 @@ header {
   background-color: #0059b3;
 }
 
+.github-section {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background-color: #eef4ff;
+  border: 1px solid #ccd7e0;
+  border-radius: 6px;
+}
+
+.github-section h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.github-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.github-grid .field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.35rem;
+}
+
+.github-grid .field input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #bcc8d6;
+}
+
+.github-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.github-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #004080;
+  color: white;
+  font-weight: bold;
+}
+
+.github-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.github-actions .hint {
+  color: #344966;
+  font-size: 0.9rem;
+}
+
 #translationTable {
   width: 100%;
   border-collapse: collapse;
@@ -97,12 +158,24 @@ header {
   resize: vertical;
   padding: 0.5rem;
   border-radius: 4px;
-  font-family: inherit;
-  font-size: 1rem;
+  border: 1px solid #ccc;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+#translationTable textarea.translation-warning {
+  border: 1px solid #d32f2f;
+  background-color: #fff5f5;
 }
 
 tr.highlight-missing td {
   background-color: #fff5f5;
+}
+
+tr.highlight-modified td {
+  background-color: #fffbe6;
 }
 
 #searchInput {
@@ -113,9 +186,58 @@ tr.highlight-missing td {
   border: 1px solid #ccc;
 }
 
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filters-row #searchInput {
+  flex: 1 1 300px;
+  margin-bottom: 0;
+}
+
+.select-wrapper {
+  flex: 1 1 200px;
+}
+
+.select-wrapper label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
 .toggle-wrapper {
   margin-bottom: 1rem;
   font-weight: bold;
+}
+
+.info-panel {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ccd7e0;
+  background-color: #f5f9ff;
+  color: #1a3a5f;
+  font-size: 0.95rem;
+}
+
+.info-panel ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.info-panel li {
+  margin-bottom: 0.25rem;
 }
 
 .table-wrapper {
